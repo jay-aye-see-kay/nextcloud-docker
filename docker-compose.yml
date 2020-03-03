@@ -27,9 +27,9 @@ services:
     volumes:
       - nextcloud:/var/www/html:ro
     environment:
-      - VIRTUAL_HOST=
-      - LETSENCRYPT_HOST=
-      - LETSENCRYPT_EMAIL=
+      - VIRTUAL_HOST=nc.jackrose.co.nz
+      - LETSENCRYPT_HOST=nc.jackrose.co.nz
+      - LETSENCRYPT_EMAIL=jackderryrose@gmail.com
     depends_on:
       - app
     networks:
@@ -64,6 +64,25 @@ services:
       - proxy-tier
     depends_on:
       - proxy
+
+  collabora:
+    image: collabora/code
+    container_name: collabora
+    expose:
+      - 9980
+    cap_add:
+      - MKNOD
+    environment:
+      - domain=collabora.jackrose.co.nz
+      - VIRTUAL_HOST=collabora.jackrose.co.nz
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=9980
+      - VIRTUAL_PROTO=https
+      - LETSENCRYPT_HOST=collabora.jackrose.co.nz
+      - LETSENCRYPT_EMAIL=jackderryrose@gmail.com
+    networks:
+      - proxy-tier
+
 
 volumes:
   db:
